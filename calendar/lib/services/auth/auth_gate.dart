@@ -1,5 +1,5 @@
-import 'package:calendar/pages/admin_home_page.dart';
-import 'package:calendar/pages/home_page.dart';
+import '/pages/admin_home_page.dart';
+import '/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
