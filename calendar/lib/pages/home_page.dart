@@ -759,6 +759,7 @@ class _HomePageState extends State<HomePage> {
                             document['ID'] == currentUserId;
                         return isEventToday && isCurrentUserEvent;
                       }).toList();
+                      // ignore: unnecessary_null_comparison
                       if (currentUserID != null) {
                         Timer.periodic(Duration(hours: 6), (timer) {
                           NotificationService()
