@@ -1,0 +1,2 @@
+const OPENWEATHER_API_KEY = "8eb3d2f44349ef6a2e9ed6b11b8fda73";
+const String GOOGLE_MAPS_API_KEY = "API_KEY_HERE";
