@@ -265,6 +265,13 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => const ConverterPageHome()));
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.arrow_back_ios),
+              title: const Text('Back'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -374,7 +381,19 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                    child: Builder(
+                        builder: (context) => IconButton(
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                            icon: Icon(
+                              Icons.menu,
+                              color: Colors.black,
+                            ))),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Image.asset(
                       "images/logo&name.png",
                       width: 180,
@@ -382,7 +401,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(90, 0, 0, 0),
                     child: IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -396,15 +415,6 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         )),
                   ),
-                  Builder(
-                      builder: (context) => IconButton(
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ))),
                   GestureDetector(
                     onTap: () {
                       setState(() {
@@ -413,7 +423,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     child: isEthiopian
                         ? Text(
-                            "ዓ.ም",
+                            "G.C",
                             style: GoogleFonts.acme(
                               color: Colors.black,
                               fontSize: 25,
@@ -421,7 +431,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           )
                         : Text(
-                            "G.C",
+                            "ዓ.ም",
                             style: GoogleFonts.acme(
                               color: Colors.black,
                               fontSize: 25,
@@ -435,7 +445,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Column(
                       children: [
                         Row(
@@ -447,7 +457,7 @@ class _HomePageState extends State<HomePage> {
                                           .month -
                                       1]
                                   : DateFormat.MMM().format(
-                                      today), // Using MMM for abbreviated month name
+                                      today),
                               style: GoogleFonts.acme(
                                 color: Colors.black,
                                 fontSize: 30,
@@ -471,7 +481,7 @@ class _HomePageState extends State<HomePage> {
                                 ? ethiopianDayNames[(EthiopianDateConverter
                                                 .convertToEthiopianDate(today)
                                             .weekday +
-                                        1) %
+                                        2) %
                                     7]
                                 : DateFormat.EEEE().format(today),
                             style: const TextStyle(
@@ -502,12 +512,15 @@ class _HomePageState extends State<HomePage> {
                           ))
                     ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.person_rounded,
-                      color: Color.fromARGB(255, 233, 176, 64),
-                      size: 40,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,0,20,0),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.person_rounded,
+                        color: Color.fromARGB(255, 233, 176, 64),
+                        size: 40,
+                      ),
                     ),
                   ),
                 ],

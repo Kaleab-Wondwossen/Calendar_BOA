@@ -89,7 +89,7 @@ class _MyCalendarState extends State<MyCalendar> {
             },
             child: isEthiopian
                 ? Text(
-                    "ዓ.ም",
+                    "G.C",
                     style: GoogleFonts.acme(
                       color: Colors.black,
                       fontSize: 25,
@@ -97,7 +97,7 @@ class _MyCalendarState extends State<MyCalendar> {
                     ),
                   )
                 : Text(
-                    "G.C",
+                    "ዓ.ም",
                     style: GoogleFonts.acme(
                       color: Colors.black,
                       fontSize: 25,
