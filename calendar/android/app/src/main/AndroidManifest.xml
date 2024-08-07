@@ -3,6 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="true"
         android:label="calendar"
         android:name="${applicationName}"

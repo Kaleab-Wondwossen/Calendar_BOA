@@ -415,29 +415,32 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         )),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isEthiopian = !isEthiopian;
-                      });
-                    },
-                    child: isEthiopian
-                        ? Text(
-                            "G.C",
-                            style: GoogleFonts.acme(
-                              color: Colors.black,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isEthiopian = !isEthiopian;
+                        });
+                      },
+                      child: isEthiopian
+                          ? Text(
+                              "G.C",
+                              style: GoogleFonts.acme(
+                                color: Colors.black,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : Text(
+                              "ዓ.ም",
+                              style: GoogleFonts.acme(
+                                color: Colors.black,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )
-                        : Text(
-                            "ዓ.ም",
-                            style: GoogleFonts.acme(
-                              color: Colors.black,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    ),
                   ),
                 ],
               ),
@@ -513,7 +516,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0,20,0),
+                    padding: const EdgeInsets.fromLTRB(0,0,40,0),
                     child: IconButton(
                       onPressed: () {},
                       icon: const Icon(
