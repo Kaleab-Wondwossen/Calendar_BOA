@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../model/contacts.dart';
 import '../pages/profile_page.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -12,9 +14,21 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   late String username;
   late String email;
+  void _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
+  static List<ContactsModel> getContacts = [
+    ContactsModel(
+        name: 'BOA Operator', number: '8397', image: 'images/App.png'),
+  ];
+  List<ContactsModel> displayList = List.from(getContacts);
   @override
   void initState() {
     super.initState();
@@ -93,18 +107,53 @@ class _SettingScreenState extends State<SettingScreen> {
               onTap: () {
                 // Navigator.pushReplacement(context, route)
               },
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey[200]),
-                child: const ListTile(
-                  leading: Icon(
-                    Icons.help_center,
-                    size: 40,
+              child: GestureDetector(
+                onTap: () {
+                  () async {
+                    if (displayList.isNotEmpty &&
+                        displayList[0].number != null) {
+                      final Uri url = Uri(
+                          scheme: 'tel',
+                          // path: displayList[0].number!,
+                          path: '8397');
+                      try {
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        } else {
+                          print("Can't launch url: $url");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Unable to launch dialer.')),
+                          );
+                        }
+                      } catch (e) {
+                        print("Error launching url: $e");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  'An error occurred while trying to dial.')),
+                        );
+                      }
+                    } else {
+                      print("No contact number available");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('No contact number available.')),
+                      );
+                    }
+                  };
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.help_center,
+                      size: 40,
+                    ),
+                    title: Text('Help Center',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    trailing: Icon(Icons.arrow_forward_ios),
                   ),
-                  title: Text('Help Center',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  trailing: Icon(Icons.arrow_forward_ios),
                 ),
               ),
             ),
@@ -116,18 +165,23 @@ class _SettingScreenState extends State<SettingScreen> {
               onTap: () {
                 // Navigator.pushReplacement(context, route)
               },
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey[200]),
-                child: const ListTile(
-                  leading: Icon(
-                    Icons.info_outline,
-                    size: 40,
+              child: GestureDetector(
+                onTap: () {
+                  _launchURL('https://www.bankofabyssinia.com/');
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.info_outline,
+                      size: 40,
+                    ),
+                    title: Text("About us",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    trailing: Icon(Icons.arrow_forward_ios),
                   ),
-                  title: Text("About us",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  trailing: Icon(Icons.arrow_forward_ios),
                 ),
               ),
             ),

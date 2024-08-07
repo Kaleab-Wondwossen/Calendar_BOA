@@ -24,96 +24,97 @@ class _MyNavBarState extends State<MyNavBar> {
     return ids.join('_');
   }
 
+  @override
   Widget build(BuildContext context) {
     Color unselectedColor = Colors.black;
     Color selectedColor = const Color.fromARGB(255, 233, 176, 64);
-    // String chatRoomId =
-    //     getChatRoomId("x62G1GJfcwh5kioho16T3kIXV353", _firebaseAuth.currentUser!.uid);
+
     return BottomNavigationBar(
       currentIndex: widget.index,
       unselectedItemColor: unselectedColor,
       selectedItemColor: selectedColor,
       items: [
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home_rounded),
           label: 'Home',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.event),
           label: 'Events',
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.all_inbox),
-            label: 'Inbox',
-            activeIcon: StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('chat_rooms')
-                  .doc(
-                      "qOKnO7ffQYPnwA7N98M4yURQbH33_x62G1GJfcwh5kioho16T3kIXV353")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
-                }
+          icon: Icon(Icons.all_inbox),
+          label: 'Inbox',
+          activeIcon: StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('chat_rooms')
+                .doc("qOKnO7ffQYPnwA7N98M4yURQbH33_x62G1GJfcwh5kioho16T3kIXV353")
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              }
 
-                var chatRoomData =
-                    snapshot.data!.data() as Map<String, dynamic>;
-                bool hasNewMessages = chatRoomData['hasNewMessage'] ?? false;
-                print(chatRoomData);
-                return Stack(
-                  children: [
-                    // Your chat UI here
-                    if (hasNewMessages)
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          color: Colors.red,
-                          child: Text(
-                            'New Messages',
-                            style: TextStyle(color: Colors.white),
-                          ),
+              var chatRoomData = snapshot.data!.data() as Map<String, dynamic>;
+              bool hasNewMessages = chatRoomData['hasNewMessage'] ?? false;
+
+              return Stack(
+                children: [
+                  const Icon(Icons.all_inbox),
+                  if (hasNewMessages)
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.red,
+                        child: const Text(
+                          'New Messages',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                  ],
-                );
-              },
-            )),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.computer),
-          label: "AI",
+                    ),
+                ],
+              );
+            },
+          ),
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.computer),
+          label: 'AI',
+        ),
+        const BottomNavigationBarItem(
           icon: Icon(Icons.person_2_rounded),
-          label: "Profile",
+          label: 'Profile',
         ),
       ],
       onTap: (index) {
-        if (widget.onIndexChanged != null) {
-          widget.onIndexChanged!(index);
-        }
-        switch (index) {
-          case 0:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
-            break;
-          case 1:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Events()));
-            break;
-          case 2:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ChatPage()));
-            break;
-          case 3:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ChatScreen()));
-            break;
-          case 4:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Profile()));
-            break;
+        if (widget.index != index) {
+          if (widget.onIndexChanged != null) {
+            widget.onIndexChanged!(index);
+          }
+          switch (index) {
+            case 0:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const HomePage()));
+              break;
+            case 1:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const Events()));
+              break;
+            case 2:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const ChatPage()));
+              break;
+            case 3:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+              break;
+            case 4:
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const Profile()));
+              break;
+          }
         }
       },
     );

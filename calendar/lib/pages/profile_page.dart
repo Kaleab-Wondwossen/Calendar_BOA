@@ -30,7 +30,14 @@ class _ProfileState extends State<Profile> {
     int endIndex = email.indexOf(RegExp(r'[.@]'));
     username = (endIndex == -1) ? email : email.substring(0, endIndex);
   }
-
+  void _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
@@ -131,7 +138,7 @@ class _ProfileState extends State<Profile> {
                   // Contact
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,))
+                      _launchURL('https://www.bankofabyssinia.com/');
                     },
                     child: Container(
                       decoration: BoxDecoration(
