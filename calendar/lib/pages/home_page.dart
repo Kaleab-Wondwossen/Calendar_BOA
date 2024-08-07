@@ -401,7 +401,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(90, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
                     child: IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -416,7 +416,7 @@ class _HomePageState extends State<HomePage> {
                         )),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(30),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -448,7 +448,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Column(
                       children: [
                         Row(
@@ -459,8 +459,7 @@ class _HomePageState extends State<HomePage> {
                                               .convertToEthiopianDate(today)
                                           .month -
                                       1]
-                                  : DateFormat.MMM().format(
-                                      today),
+                                  : DateFormat.MMM().format(today),
                               style: GoogleFonts.acme(
                                 color: Colors.black,
                                 fontSize: 30,
@@ -516,7 +515,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0,40,0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child: IconButton(
                       onPressed: () {},
                       icon: const Icon(
