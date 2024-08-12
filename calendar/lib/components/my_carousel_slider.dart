@@ -1,6 +1,5 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,7 +22,7 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
     super.initState();
     // Start auto sliding images every 3 seconds
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < 2) {
+      if (_currentPage < 1) {
         _controller.animateToPage(_currentPage + 1,
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut);
@@ -33,6 +32,12 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
             curve: Curves.easeInOut);
       }
     });
+  }
+
+  final CollectionReference adsCollection = FirebaseFirestore.instance.collection("AdsList");
+
+  Stream<QuerySnapshot> getImageUrl() {
+    return adsCollection.orderBy('timestamp', descending: true).snapshots();
   }
 
   @override
@@ -63,52 +68,62 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 250,
-          width: 450,
-          child: PageView(
-            controller: _controller,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            children: [
-              _buildImageWithButton(
-                imagePath: "images/img1.jpg",
-                url:
-                    "https://www.bankofabyssinia.com/mobile-banking-in-ethiopia/",
+    return StreamBuilder<QuerySnapshot>(
+      stream: getImageUrl(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        final ads = snapshot.data!.docs;
+        return Column(
+          children: [
+            SizedBox(
+              height: 250,
+              width: 450,
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: ads.length,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final ad = ads[index];
+                  final imageUrl = ad['image'];
+                  final url = ad['url'];
+                  final adName = ad['name'];
+
+                  return _buildImageWithButton(
+                    imagePath: imageUrl,
+                    url: url,
+                    adName: adName,
+                  );
+                },
               ),
-              _buildImageWithButton(
-                imagePath: "images/img2.png",
-                url: "https://www.bankofabyssinia.com/",
+            ),
+            SmoothPageIndicator(
+              controller: _controller,
+              count: ads.length,
+              effect: const ExpandingDotsEffect(
+                activeDotColor: Color.fromARGB(255, 233, 176, 64),
+                dotColor: Color.fromARGB(255, 245, 222, 174),
+                dotWidth: 15,
+                dotHeight: 15,
+                spacing: 15,
               ),
-              _buildImageWithButton(
-                imagePath: "images/img3.jpg",
-                url: "https://www.bankofabyssinia.com/interest-free-banking/",
-              ),
-            ],
-          ),
-        ),
-        SmoothPageIndicator(
-          controller: _controller,
-          count: 3,
-          effect: const ExpandingDotsEffect(
-            activeDotColor: Color.fromARGB(255, 233, 176, 64),
-            dotColor: Color.fromARGB(255, 245, 222, 174),
-            dotWidth: 15,
-            dotHeight: 15,
-            spacing: 15,
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildImageWithButton(
-      {required String imagePath, required String url}) {
+  Widget _buildImageWithButton({
+    required String imagePath,
+    required String url,
+    required String adName,
+  }) {
     return GestureDetector(
       onTap: () => _launchURL(url),
       child: Stack(
@@ -117,10 +132,9 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
-              child: Image.asset(
+              child: Image.network(
                 imagePath,
-                fit: BoxFit
-                    .cover, // Add this line to ensure the image fits perfectly
+                fit: BoxFit.cover, // Add this line to ensure the image fits perfectly
                 width: double.infinity,
                 height: double.infinity,
               ),
@@ -132,12 +146,11 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
             child: ElevatedButton(
               onPressed: () => _launchURL(url),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 247, 247,
-                    247), // Replace with your desired background color
+                backgroundColor: const Color.fromARGB(255, 247, 247, 247), // Replace with your desired background color
               ),
-              child: const Text(
+              child: Text(
                 'Learn More',
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ),

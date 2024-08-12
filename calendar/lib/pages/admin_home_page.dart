@@ -27,7 +27,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
     day = DateTime(today.year, today.month, today.day);
     month = DateTime(today.year, today.month);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,6 +217,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           indent: 20,
           endIndent: 20,
         ),
+        
       ],
     );
   }

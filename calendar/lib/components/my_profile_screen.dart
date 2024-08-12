@@ -14,7 +14,6 @@ class Profilescreen extends StatefulWidget {
 
 class _ProfilescreenState extends State<Profilescreen> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final picker = ImagePicker();

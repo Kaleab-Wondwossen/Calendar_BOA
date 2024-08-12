@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:abushakir/abushakir.dart';
 import 'package:calendar/components/my_carousel_slider.dart';
 import 'package:calendar/components/my_nav_bar.dart';
+import 'package:calendar/pages/admin_home_page.dart';
 import 'package:calendar/pages/home_page_user.dart';
 import 'package:calendar/pages/inbox_page.dart';
 import 'package:calendar/pages/search_page.dart';
@@ -401,47 +402,71 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SearchPage()));
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                          size: 30,
-                          color: Colors.black,
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isEthiopian = !isEthiopian;
-                        });
-                      },
-                      child: isEthiopian
-                          ? Text(
-                              "G.C",
-                              style: GoogleFonts.acme(
+                    padding: const EdgeInsets.fromLTRB(20,0,0,0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (currentUserEmail == "iamadmin@gmail.com")
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AdminHomePage()));
+                              },
+                              icon: Icon(
+                                Icons.swap_horiz,
                                 color: Colors.black,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Text(
-                              "ዓ.ም",
-                              style: GoogleFonts.acme(
+                                size: 30,
+                              ))
+                              else Text("            "),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SearchPage()));
+                              },
+                              icon: const Icon(
+                                Icons.search,
+                                size: 30,
                                 color: Colors.black,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isEthiopian = !isEthiopian;
+                              });
+                            },
+                            child: isEthiopian
+                                ? Text(
+                                    "G.C",
+                                    style: GoogleFonts.acme(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : Text(
+                                    "ዓ.ም",
+                                    style: GoogleFonts.acme(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  )
                 ],
               ),
               Row(
@@ -689,7 +714,8 @@ class _HomePageState extends State<HomePage> {
                   var messages = snapshot.data?.docs;
 
                   if (messages == null || messages.isEmpty) {
-                    return Center(child: Text('No Message'));
+                    return Center(
+                        child: Text('Admin Don\'t Recive Messages!!'));
                   }
 
                   bool hasNewMessages = false;

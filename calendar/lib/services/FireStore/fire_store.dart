@@ -18,6 +18,9 @@ class FireStoreServices {
   final CollectionReference notes =
       FirebaseFirestore.instance.collection("Events");
 
+  final CollectionReference Urls =
+      FirebaseFirestore.instance.collection("AdsList");
+
   final CollectionReference adminNotes =
       FirebaseFirestore.instance.collection("AdminEvents");
 
@@ -68,6 +71,12 @@ class FireStoreServices {
     final notesStream =
         notes.orderBy('timestamp', descending: true).snapshots();
     return notesStream;
+  }
+
+  Stream<QuerySnapshot> getImageUrl() {
+    final imageUrl =
+        Urls.orderBy('timestamp', descending: true).snapshots();
+    return imageUrl;
   }
 
   Stream<QuerySnapshot> getUsers() {
