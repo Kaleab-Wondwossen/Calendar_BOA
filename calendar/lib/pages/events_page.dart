@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'search_page.dart';
+
 class Events extends StatefulWidget {
   const Events({super.key});
 
@@ -27,7 +29,9 @@ class _EventsState extends State<Events> {
           child: SingleChildScrollView(
         child: Column(
           children: [
-            const MyCalendar(format: CalendarFormat.week,),
+            const MyCalendar(
+              format: CalendarFormat.week,
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -86,7 +90,7 @@ class _EventsState extends State<Events> {
                       width: 10,
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -104,7 +108,7 @@ class _EventsState extends State<Events> {
                       width: 10,
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(

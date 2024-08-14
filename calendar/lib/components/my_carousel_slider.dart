@@ -21,7 +21,7 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
   void initState() {
     super.initState();
     // Start auto sliding images every 3 seconds
-    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       if (_currentPage < 1) {
         _controller.animateToPage(_currentPage + 1,
             duration: const Duration(milliseconds: 500),

@@ -1,9 +1,9 @@
-import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
 import '../model/events.dart';
 
 class MyCalendar extends StatefulWidget {
@@ -17,15 +17,35 @@ class MyCalendar extends StatefulWidget {
 
 class _MyCalendarState extends State<MyCalendar> {
   bool isEthiopian = true; // State variable to toggle calendar type
+  bool isLoggedIn = false; // Variable to check if user is logged in
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus(); // Check if the user is logged in
+    today = DateTime.now();
+    selectedEvent = ValueNotifier(_getEventsForDay(today));
+    selectedEvent.value = _getEventsForDay(today);
+  }
+
+  Future<void> checkLoginStatus() async {
+    // Get the current user from FirebaseAuth
+    User? user = FirebaseAuth.instance.currentUser;
+
+    // Set the state based on whether the user is logged in
+    setState(() {
+      isLoggedIn = user != null;
+    });
+  }
 
   List<String> ethiopianDayNames = [
-    'እሑድ', 
-    'ሰኞ', 
-    'ማክሰኞ', 
-    'ረቡዕ', 
-    'ሐሙስ', 
-    'ዓርብ', 
-    'ቅዳሜ', 
+    'እሑድ',
+    'ሰኞ',
+    'ማክሰኞ',
+    'ረቡዕ',
+    'ሐሙስ',
+    'ዓርብ',
+    'ቅዳሜ',
   ];
   List<String> ethiopianMonthNames = [
     'መስከረም',
@@ -58,13 +78,6 @@ class _MyCalendarState extends State<MyCalendar> {
   CalendarFormat _calendarFormat =
       CalendarFormat.month; // Define the initial format
   late final ValueNotifier<List<Events>> selectedEvent;
-  @override
-  void initState() {
-    super.initState();
-    today = DateTime.now();
-    selectedEvent = ValueNotifier(_getEventsForDay(today));
-    selectedEvent.value = _getEventsForDay(today);
-  }
 
   void onDaySelected(DateTime day, DateTime focusedDate) {
     setState(() {
@@ -81,29 +94,44 @@ class _MyCalendarState extends State<MyCalendar> {
     return Column(
       children: [
         Center(
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                isEthiopian = !isEthiopian;
-              });
-            },
-            child: isEthiopian
-                ? Text(
-                    "G.C",
-                    style: GoogleFonts.acme(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                : Text(
-                    "ዓ.ም",
-                    style: GoogleFonts.acme(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.07,0,MediaQuery.of(context).size.width * 0.05 ,0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isEthiopian = !isEthiopian;
+                    });
+                  },
+                  child: isEthiopian
+                      ? Text(
+                          "G.C",
+                          style: GoogleFonts.acme(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : Text(
+                          "ዓ.ም",
+                          style: GoogleFonts.acme(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+                if (isLoggedIn) // Only show search icon if logged in
+                  IconButton(
+                    icon: Icon(Icons.search, color: Colors.black,),
+                    onPressed: () {
+                      // Implement search functionality here
+                    },
                   ),
+              ],
+            ),
           ),
         ),
         TableCalendar(

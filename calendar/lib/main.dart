@@ -1,4 +1,5 @@
 import 'package:calendar/firebase_options.dart';
+// import 'package:calendar/pages/local_notification_ios.dart';
 import 'package:calendar/services/FireStore/fire_store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,16 +48,17 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  
+
   // Initialize Timezone Data
   tz.initializeTimeZones();
 
   // Get the local timezone
   final String currentTimeZones = await FlutterTimezone.getLocalTimezone();
-  final String currentTimeZone = timezoneNames[DateTime.now().timeZoneOffset.inMilliseconds] ?? 'UTC';
+  final String currentTimeZone =
+      timezoneNames[DateTime.now().timeZoneOffset.inMilliseconds] ?? 'UTC';
   print('$currentTimeZone ${DateTime.now().timeZoneOffset}');
 
   // Set the local timezone for tz
@@ -65,6 +67,7 @@ void main() async {
 
   // Initialize Notifications
   await NotificationService().initNotification();
+  //await NotificationServiceIOS.initNotification();
   await FireStoreServices().initNotification();
 
   // Event Notifier

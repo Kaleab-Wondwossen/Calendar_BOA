@@ -6,6 +6,7 @@ import 'package:calendar/components/my_nav_bar.dart';
 import 'package:calendar/pages/admin_home_page.dart';
 import 'package:calendar/pages/home_page_user.dart';
 import 'package:calendar/pages/inbox_page.dart';
+import 'package:calendar/pages/local_notification_ios.dart';
 import 'package:calendar/pages/search_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
@@ -38,6 +39,17 @@ class _HomePageState extends State<HomePage> {
   late DateTime day;
   DateTime ethioDate =
       EthiopianDateConverter.convertToEthiopianDate(DateTime.now());
+
+  List<String> ethiopianDayNames = [
+    'እሑድ', // Sunday
+    'ሰኞ', // Monday
+    'ማክሰኞ', // Tuesday
+    'ረቡዕ', // Wednesday
+    'ሐሙስ', // Thursday
+    'ዓርብ', // Friday
+    'ቅዳሜ', // Saturday
+  ];
+
   List<String> ethiopianMonthNames = [
     'መስከረም',
     'ጥቅምት',
@@ -54,15 +66,6 @@ class _HomePageState extends State<HomePage> {
     'ጳጉሜ',
   ];
 
-  List<String> ethiopianDayNames = [
-    'እሑድ', // Sunday
-    'ሰኞ', // Monday
-    'ማክሰኞ', // Tuesday
-    'ረቡዕ', // Wednesday
-    'ሐሙስ', // Thursday
-    'ዓርብ', // Friday
-    'ቅዳሜ', // Saturday
-  ];
   Map<DateTime, List<Events>> evenets = {};
   TextEditingController eventDescriptionCOntroller = TextEditingController();
   TextEditingController eventTitleCOntroller = TextEditingController();
@@ -209,6 +212,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        toolbarHeight: 50,
+        backgroundColor: const Color.fromARGB(255, 233, 176, 64),
+        title: const Text(
+          'C A L E N D A R',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -379,95 +391,95 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                    child: Builder(
-                        builder: (context) => IconButton(
-                            onPressed: () {
-                              Scaffold.of(context).openDrawer();
-                            },
-                            icon: Icon(
-                              Icons.menu,
-                              color: Colors.black,
-                            ))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Image.asset(
-                      "images/logo&name.png",
-                      width: 180,
-                      height: 80,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20,0,0,0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        if (currentUserEmail == "iamadmin@gmail.com")
-                          IconButton(
+              Container(
+                height: MediaQuery.of(context).size.width * 0.2,
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 233, 176, 64)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.01, 0, 0, 0),
+                      child: Builder(
+                          builder: (context) => IconButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AdminHomePage()));
+                                Scaffold.of(context).openDrawer();
                               },
                               icon: Icon(
-                                Icons.swap_horiz,
+                                Icons.menu,
                                 color: Colors.black,
-                                size: 30,
-                              ))
-                              else Text("            "),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SearchPage()));
-                              },
-                              icon: const Icon(
-                                Icons.search,
-                                size: 30,
-                                color: Colors.black,
-                              )),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isEthiopian = !isEthiopian;
-                              });
-                            },
-                            child: isEthiopian
-                                ? Text(
-                                    "G.C",
-                                    style: GoogleFonts.acme(
-                                      color: Colors.black,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                : Text(
-                                    "ዓ.ም",
-                                    style: GoogleFonts.acme(
-                                      color: Colors.black,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                              ))),
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 60,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0,
+                                MediaQuery.of(context).size.width * 0.2, 0),
+                            child: Image.asset(
+                              "images/name.png",
+                              width: 150,
+                              height: 60,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  )
-                ],
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.1, 0, 0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (currentUserEmail == "iamadmin@gmail.com")
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AdminHomePage()));
+                                },
+                                icon: Icon(
+                                  Icons.swap_horiz,
+                                  color: Colors.black,
+                                  size: 30,
+                                ))
+                          else
+                            Text("            "),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isEthiopian = !isEthiopian;
+                                });
+                              },
+                              child: isEthiopian
+                                  ? Text(
+                                      "G.C",
+                                      style: GoogleFonts.acme(
+                                        color: Colors.black,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : Text(
+                                      "ዓ.ም",
+                                      style: GoogleFonts.acme(
+                                        color: Colors.black,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
