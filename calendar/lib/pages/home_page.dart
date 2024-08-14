@@ -2,12 +2,11 @@
 import 'dart:async';
 import 'package:abushakir/abushakir.dart';
 import 'package:calendar/components/my_carousel_slider.dart';
+import 'package:calendar/components/my_drawer.dart';
 import 'package:calendar/components/my_nav_bar.dart';
 import 'package:calendar/pages/admin_home_page.dart';
 import 'package:calendar/pages/home_page_user.dart';
 import 'package:calendar/pages/inbox_page.dart';
-import 'package:calendar/pages/local_notification_ios.dart';
-import 'package:calendar/pages/search_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,11 +18,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../components/my_card_builder.dart';
 import '../model/events.dart';
 import '../services/FireStore/fire_store.dart';
-import 'conver_to_GC_Home.dart';
 import 'flutter_local_notifications.dart';
-import 'foriegn_exchange.dart';
-import 'loan_calculator.dart';
-import 'weather_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -77,6 +72,8 @@ class _HomePageState extends State<HomePage> {
   late DateTime today;
   late String username;
   late DateTime year;
+  String selectedCategory = '';
+  String dropdownValue = 'Celebration';
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -221,73 +218,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 233, 176, 64),
-              ),
-              child: Text(
-                'More from Calendar',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.credit_card),
-              title: const Text('Loan Calculator'),
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoanCalculator()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.currency_exchange),
-              title: const Text('Foreign Exchange Rate'),
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ForeignExchange()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.cloud_circle),
-              title: const Text('Weather'),
-              onTap: () {
-                // Navigate to help page or perform action
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const WeatherPage()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.change_circle),
-              title: const Text('Converters'),
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ConverterPageHome()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.arrow_back_ios),
-              title: const Text('Back'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
       backgroundColor: const Color.fromARGB(255, 247, 247, 247),
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 0, 160, 0),
@@ -295,90 +226,130 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: const Color.fromARGB(255, 233, 176, 64),
           onPressed: () {
             showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    scrollable: true,
-                    title: Text(
-                      'Add Event',
-                      style: GoogleFonts.acme(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+              context: context,
+              builder: (context) {
+                String dropdownValue =
+                    'Celebration'; // Initialize with default value
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return AlertDialog(
+                      scrollable: true,
+                      title: Text(
+                        'Add Event',
+                        style: GoogleFonts.acme(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    content: Container(
-                      //color: const Color.fromARGB(255, 245, 222, 174), // Change this to your preferred color
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: eventTitleCOntroller,
-                            decoration: const InputDecoration(
+                      content: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: eventTitleCOntroller,
+                              decoration: const InputDecoration(
                                 labelText: 'Event Title',
                                 fillColor: Colors.black,
-                                focusColor: Colors.black),
-                          ),
-                          TextField(
-                            controller: eventDescriptionCOntroller,
-                            decoration: const InputDecoration(
-                              labelText: 'Event Description',
+                                focusColor: Colors.black,
+                              ),
                             ),
+                            TextField(
+                              controller: eventDescriptionCOntroller,
+                              decoration: const InputDecoration(
+                                labelText: 'Event Description',
+                              ),
+                            ),
+                            DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.black),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.black,
+                              ),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdownValue = newValue!;
+                                  selectedCategory =
+                                      newValue; // Store selected category
+                                });
+                              },
+                              items: <String>[
+                                'Celebration',
+                                'Meeting',
+                                'Out Door Activities',
+                                'People'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: GoogleFonts.acme(
+                                color: Colors.black, fontSize: 15),
                           ),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Cancel',
-                          style: GoogleFonts.acme(
-                              color: Colors.black, fontSize: 15),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          print(eventDescriptionCOntroller.toString());
-                          print(eventTitleCOntroller.toString());
-                          evenets.addAll({
-                            today: [
-                              Events(eventTitleCOntroller.text,
-                                  eventDescriptionCOntroller.text)
-                            ]
-                          });
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            print(eventDescriptionCOntroller.toString());
+                            print(eventTitleCOntroller.toString());
+                            evenets.addAll({
+                              today: [
+                                Events(
+                                  eventTitleCOntroller.text,
+                                  eventDescriptionCOntroller.text,
+                                )
+                              ]
+                            });
 
-                          final FirebaseAuth firebaseAuth =
-                              FirebaseAuth.instance;
-                          final String currentUserId =
-                              firebaseAuth.currentUser!.uid;
+                            final FirebaseAuth firebaseAuth =
+                                FirebaseAuth.instance;
+                            final String currentUserId =
+                                firebaseAuth.currentUser!.uid;
 
-                          selectedEvent.value = _getEventsForDay(today);
-                          String date = DateFormat('yyyy-MM-dd').format(today);
-                          //ignore: no_leading_underscores_for_local_identifiers
-                          FireStoreServices _firestoreservices =
-                              FireStoreServices();
-                          _firestoreservices.add(
-                              eventTitleCOntroller.text,
-                              eventDescriptionCOntroller.text,
-                              date,
-                              currentUserId);
-                          eventDescriptionCOntroller.clear();
-                          eventTitleCOntroller.clear();
-                        },
-                        child: Text(
-                          'Add',
-                          style: GoogleFonts.acme(
-                              color: Colors.black, fontSize: 15),
+                            selectedEvent.value = _getEventsForDay(today);
+                            String date =
+                                DateFormat('yyyy-MM-dd').format(today);
+                            FireStoreServices _firestoreservices =
+                                FireStoreServices();
+                            _firestoreservices.add(
+                                eventTitleCOntroller.text,
+                                eventDescriptionCOntroller.text,
+                                date,
+                                currentUserId,
+                                selectedCategory // Add the selected category
+                                );
+                            eventDescriptionCOntroller.clear();
+                            eventTitleCOntroller.clear();
+                          },
+                          child: Text(
+                            'Add',
+                            style: GoogleFonts.acme(
+                                color: Colors.black, fontSize: 15),
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                });
+                      ],
+                    );
+                  },
+                );
+              },
+            );
           },
           child: const Icon(
             Icons.add_rounded,
@@ -837,6 +808,7 @@ class _HomePageState extends State<HomePage> {
                                 children: todaysDocuments.map((document) {
                                   String id = document['EventTitle'];
                                   String message = document['EventDescription'];
+                                  
                                   // Parse the date string to DateTime
                                   DateTime eventDate =
                                       DateTime.parse(document['Date']);

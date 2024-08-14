@@ -116,7 +116,10 @@ class _LoanCalculatorState extends State<LoanCalculator> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Amount: "),
+                  Text("Amount: ", style: GoogleFonts.acme(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                  ),),
                   const SizedBox(width: 20),
                   Expanded(
                     child: MyTextField(
@@ -136,7 +139,10 @@ class _LoanCalculatorState extends State<LoanCalculator> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Month:        "),
+                  Text("Month:          ", style: GoogleFonts.acme(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                  ),),
                   const SizedBox(width: 5),
                   Expanded(
                     child: MyTextField(
@@ -152,37 +158,15 @@ class _LoanCalculatorState extends State<LoanCalculator> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.fromLTRB(10, 0, 100, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Rate % ",
-                    style: GoogleFonts.acme(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: const Color.fromARGB(255, 233, 176, 64)
-                          .withOpacity(1.0),
-                    ),
-                  ),
+                  Text("Rate:               ", style: GoogleFonts.acme(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                  ),),
                   const SizedBox(width: 5),
-                  Text(
-                    "Method",
-                    style: GoogleFonts.acme(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: const Color.fromARGB(255, 233, 176, 64)
-                          .withOpacity(1.0),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
                   Expanded(
                       child: MyTextField(
                           hintText: "Annual Interest Rate",
@@ -191,59 +175,120 @@ class _LoanCalculatorState extends State<LoanCalculator> {
                   const SizedBox(
                     width: 8,
                   ),
-                  DropdownButton(
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_downward),
-                    items: list.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
-                  )
                 ],
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Text(
-                "Monthly Payment:                      ${monthlyPayment?.toStringAsFixed(2) ?? '..................'}",
-                style: GoogleFonts.acme(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                )),
-            const SizedBox(
-              height: 10,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 100, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Method:          ", style: GoogleFonts.acme(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                  ),),
+                  const SizedBox(width: 3.5),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.000000001,0),
+                    child: DropdownButton(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      items: list.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                ],
+              ),
             ),
-            Text(
-                "Total Interest:                                 ${totalInterest?.toStringAsFixed(2) ?? '..................'}",
-                style: GoogleFonts.acme(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                )),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-                "Total Principal and Interest: ${totalPrincipalInterest?.toStringAsFixed(2) ?? '..................'}",
-                style: GoogleFonts.acme(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                )),
             const SizedBox(
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(100, 20, 100, 20),
+              padding: const EdgeInsets.fromLTRB(10.0,0,50,0),
+              child: Row(
+                children: [
+                  Text("Monthly \nPayment:", style: GoogleFonts.acme(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                    ),),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    Expanded(
+                      child: MyTextField(
+                       hintText: "${monthlyPayment?.toStringAsFixed(2) ?? '#######'}",
+                       obscureText: false,
+                      ),
+                    )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0,0,50,0),
+              child: Row(
+                children: [
+                  Text("Total \nInterest:  ", style: GoogleFonts.acme(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                    ),),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    Expanded(
+                      child: MyTextField(
+                       hintText: "${totalInterest?.toStringAsFixed(2) ?? '#######'}",
+                       obscureText: false,
+                      ),
+                    )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10,0,50,0),
+              child: Row(
+                children: [
+                  Text("Total Principal \nand Interest:", style: GoogleFonts.acme(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                    ),),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    Expanded(
+                      child: MyTextField(
+                       hintText: "${totalPrincipalInterest?.toStringAsFixed(2) ?? '#######'}",
+                       obscureText: false,
+                      ),
+                    )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(120, 20, 120, 20),
               child: GestureDetector(
                   onTap: () {
                     _calculateLoan();

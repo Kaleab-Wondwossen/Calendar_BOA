@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'search_page.dart';
-
 class Events extends StatefulWidget {
   const Events({super.key});
 
@@ -64,8 +62,8 @@ class _EventsState extends State<Events> {
                       },
                       child: const CategoriesCard(
                         icon: Icons.cake,
-                        text: "Birthday",
-                        subText: "Where u can find Birthdays in one tap",
+                        text: "Celebrations",
+                        subText: "Where u can find Celebratrions in one tap",
                       ),
                     ),
                     const SizedBox(
@@ -98,10 +96,10 @@ class _EventsState extends State<Events> {
                       },
                       child: const CategoriesCard(
                         icon: Icons.sports_soccer,
-                        text: "Match",
+                        text: "Activites",
                         backgroundColor: Color.fromARGB(157, 164, 163, 207),
                         iconColor: Color.fromARGB(157, 85, 93, 248),
-                        subText: "Matches and Fixitures",
+                        subText: "Matches and Fixitures and many more",
                       ),
                     ),
                     const SizedBox(

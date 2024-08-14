@@ -29,13 +29,14 @@ class FireStoreServices {
 
   //Create: add note to the fire store
   Future<void> add(
-      String title, String description, String date, String userId) {
+      String title, String description, String date, String userId, String eventsCategory) {
     return notes.add({
       'EventTitle': title,
       'EventDescription': description,
       'ID': userId,
       "Date": date,
-      'timestamp': Timestamp.now()
+      'timestamp': Timestamp.now(),
+      "eventsCategory": eventsCategory
     });
   }
 

@@ -12,6 +12,7 @@ class CardBuilder extends StatelessWidget {
     this.date,
     this.showEditIcon = true,
     this.showDeleteIcon = true,
+    this.category,
   });
 
   final String title;
@@ -21,6 +22,7 @@ class CardBuilder extends StatelessWidget {
   final String? date;
   final bool showEditIcon;
   final bool showDeleteIcon;
+  final String? category;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class CardBuilder extends StatelessWidget {
                         ),
                       ),
                       Text(date.toString()),
+                      //Text(category.toString())
                     ],
                   ),
                 ],
