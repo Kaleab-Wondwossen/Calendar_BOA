@@ -288,7 +288,7 @@ class _LoanCalculatorState extends State<LoanCalculator> {
               height: 50,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(120, 20, 120, 20),
+              padding: const EdgeInsets.fromLTRB(110, 20, 110, 20),
               child: GestureDetector(
                   onTap: () {
                     _calculateLoan();

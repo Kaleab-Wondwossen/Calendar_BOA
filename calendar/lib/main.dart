@@ -4,6 +4,7 @@ import 'package:calendar/services/FireStore/fire_store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -54,6 +55,11 @@ void main() async {
 
   // Initialize Timezone Data
   tz.initializeTimeZones();
+
+  //init hive
+  await Hive.initFlutter();
+  //opening the box
+  var box = await Hive.openBox('Events');
 
   // Get the local timezone
   final String currentTimeZones = await FlutterTimezone.getLocalTimezone();

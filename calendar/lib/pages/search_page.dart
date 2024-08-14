@@ -1,20 +1,21 @@
 import 'package:calendar/components/my_card_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SearchPage extends StatefulWidget {
-  final String? Option;
+  final String? option;
 
-  const SearchPage({super.key, this.Option});
+  const SearchPage({super.key, this.option});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
   late TextEditingController _searchController;
   List<Map<String, dynamic>> _searchResults = [];
+  String? _currentUserId;
 
   @override
   void dispose() {
@@ -25,36 +26,50 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController(text: widget.Option);
+    _searchController = TextEditingController(text: widget.option);
+    _getCurrentUserId();
+  }
+
+  void _getCurrentUserId() {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    setState(() {
+      _currentUserId = user?.uid;
+    });
   }
 
   Future<void> _search(String keyword) async {
-    if (keyword.isEmpty) {
+    if (keyword.isEmpty || _currentUserId == null) {
       setState(() {
         _searchResults = [];
       });
       return;
     }
 
+    print('Current User ID: $_currentUserId');
     List<String> keywords = keyword.split(' ');
 
     List<Map<String, dynamic>> results = [];
 
     for (String word in keywords) {
+      print('Searching for keyword: $word');
       final snapshot = await FirebaseFirestore.instance
           .collection('Events')
           .where('EventTitle', isGreaterThanOrEqualTo: word)
           .where('EventTitle', isLessThanOrEqualTo: '$word\uf8ff')
           .get();
 
+      print('Found ${snapshot.docs.length} results');
       results.addAll(snapshot.docs.map((doc) => doc.data()).toList());
     }
 
+    final filteredResults = results.where((result) => result['ID'] == _currentUserId).toList();
+
     // Remove duplicates
-    final uniqueResults = results.toSet().toList();
+    // final uniqueResults = results.toSet().toList();
 
     setState(() {
-      _searchResults = uniqueResults;
+      _searchResults = filteredResults;
     });
   }
 
@@ -106,6 +121,9 @@ class _SearchPageState extends State<SearchPage> {
                   child: CardBuilder(
                     title: result['EventTitle'],
                     description: result['EventDescription'],
+                    date: result["Date"],
+                    showDeleteIcon: false,
+                    showEditIcon: false,
                   ),
                 );
               },

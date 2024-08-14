@@ -1,3 +1,4 @@
+import 'package:calendar/pages/search_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,7 +96,11 @@ class _MyCalendarState extends State<MyCalendar> {
       children: [
         Center(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.07,0,MediaQuery.of(context).size.width * 0.05 ,0),
+            padding: EdgeInsets.fromLTRB(
+                MediaQuery.of(context).size.width * 0.07,
+                0,
+                MediaQuery.of(context).size.width * 0.05,
+                0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -125,9 +130,15 @@ class _MyCalendarState extends State<MyCalendar> {
                 ),
                 if (isLoggedIn) // Only show search icon if logged in
                   IconButton(
-                    icon: Icon(Icons.search, color: Colors.black,),
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
                     onPressed: () {
-                      // Implement search functionality here
+                       Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchPage()));
                     },
                   ),
               ],

@@ -7,6 +7,7 @@ import 'package:calendar/components/my_nav_bar.dart';
 import 'package:calendar/pages/admin_home_page.dart';
 import 'package:calendar/pages/home_page_user.dart';
 import 'package:calendar/pages/inbox_page.dart';
+import 'package:calendar/pages/local_notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -209,15 +210,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 50,
-        backgroundColor: const Color.fromARGB(255, 233, 176, 64),
-        title: const Text(
-          'C A L E N D A R',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-      ),
       drawer: MyDrawer(),
       backgroundColor: const Color.fromARGB(255, 247, 247, 247),
       floatingActionButton: Padding(
@@ -785,10 +777,20 @@ class _HomePageState extends State<HomePage> {
                       }).toList();
                       // ignore: unnecessary_null_comparison
                       if (currentUserID != null) {
-                        Timer.periodic(Duration(hours: 6), (timer) {
-                          NotificationService()
-                              .checkAndScheduleNotifications(currentUserID);
-                        });
+                        // Timer.periodic(Duration(hours: 6), (timer) {
+                        //   NotificationService()
+                        //       .checkAndScheduleNotifications(currentUserID);
+                        // });
+                        NotificationServiceAndroid().showNotification(
+                            id: 0,
+                            title: "BOA",
+                            body: "Check Todays Event",
+                            payLoad: "");
+                        NotificationServiceAndroid().scheduleNotification(
+                            id: 1,
+                            title: "BOA Calendar",
+                            body: "You have Events to Check",
+                            scheduledDate: DateTime(10, 59, 0));
                       }
                       return Padding(
                         padding: const EdgeInsets.only(
@@ -808,7 +810,7 @@ class _HomePageState extends State<HomePage> {
                                 children: todaysDocuments.map((document) {
                                   String id = document['EventTitle'];
                                   String message = document['EventDescription'];
-                                  
+
                                   // Parse the date string to DateTime
                                   DateTime eventDate =
                                       DateTime.parse(document['Date']);
