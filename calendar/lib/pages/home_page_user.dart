@@ -44,7 +44,7 @@ class _HomePageUserState extends State<HomePageUser> {
   TextEditingController eventDescriptionController = TextEditingController();
   String dropdownValue = 'Celebration';
   Map<DateTime, List<Events>> events = {};
-  List<Map<String, dynamic>> _events = [];
+  //List<Map<String, dynamic>> _events = [];
 
   DateTime today = DateTime.now();
   ValueNotifier<List<Events>> selectedEvent = ValueNotifier([]);
@@ -280,9 +280,9 @@ class _HomePageUserState extends State<HomePageUser> {
                                 padding: EdgeInsets.fromLTRB(0, 0,
                                     MediaQuery.of(context).size.width * 0.2, 0),
                                 child: Image.asset(
-                                  "images/name.png",
-                                  width: 150,
-                                  height: 60,
+                                  "images/white.png",
+                                  width: 170,
+                                  height: 100,
                                 ),
                               ),
                             ),

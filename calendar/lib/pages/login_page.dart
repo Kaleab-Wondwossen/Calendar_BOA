@@ -1,5 +1,7 @@
 import 'package:calendar/pages/home_page.dart';
+import 'package:calendar/pages/password_reset_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../components/my_button.dart';
 import '../components/my_text_field.dart';
@@ -90,13 +92,16 @@ class _LoginState extends State<Login> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        "Forget Password?",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 233, 176, 64),
+                      GestureDetector(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> PasswordReset())),
+                        child: Text(
+                          "Forget Password?",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 233, 176, 64),
+                          ),
                         ),
                       ),
                     ],

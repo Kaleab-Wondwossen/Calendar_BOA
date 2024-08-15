@@ -381,9 +381,9 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.fromLTRB(0, 0,
                                 MediaQuery.of(context).size.width * 0.2, 0),
                             child: Image.asset(
-                              "images/name.png",
-                              width: 150,
-                              height: 60,
+                              "images/white.png",
+                              width: 170,
+                              height: 100,
                             ),
                           ),
                         ),
