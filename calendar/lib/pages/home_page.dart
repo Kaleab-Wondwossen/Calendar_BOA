@@ -103,8 +103,8 @@ class _HomePageState extends State<HomePage> {
     List<String> ids = ["qOKnO7ffQYPnwA7N98M4yURQbH33", currentUserID];
     ids.sort();
     chatRoomId = ids.join("_");
-    NotificationService().initNotification();
-    scheduleDailyEventCheck();
+    // NotificationService().initNotification();
+    // scheduleDailyEventCheck();
   }
 
   EtDatetime convertToEthiopianDate(DateTime date) {
@@ -115,51 +115,51 @@ class _HomePageState extends State<HomePage> {
     return DateTime(etDate.year, etDate.month, etDate.day);
   }
 
-  void scheduleDailyEventCheck() {
-    final now = DateTime.now();
-    final timeToSchedule = TimeOfDay(hour: 8, minute: 0);
+  // void scheduleDailyEventCheck() {
+  //   final now = DateTime.now();
+  //   final timeToSchedule = TimeOfDay(hour: 8, minute: 0);
 
-    // Calculate the difference between now and the time to schedule
-    final nowMinutes = now.hour * 60 + now.minute;
-    final scheduleMinutes = timeToSchedule.hour * 60 + timeToSchedule.minute;
-    final initialDelay = scheduleMinutes > nowMinutes
-        ? scheduleMinutes - nowMinutes
-        : 24 * 60 - (nowMinutes - scheduleMinutes);
+  //   // Calculate the difference between now and the time to schedule
+  //   final nowMinutes = now.hour * 60 + now.minute;
+  //   final scheduleMinutes = timeToSchedule.hour * 60 + timeToSchedule.minute;
+  //   final initialDelay = scheduleMinutes > nowMinutes
+  //       ? scheduleMinutes - nowMinutes
+  //       : 24 * 60 - (nowMinutes - scheduleMinutes);
 
-    Future.delayed(Duration(minutes: initialDelay), () async {
-      await checkForTodayEvents();
-      // Repeat daily
-      Timer.periodic(Duration(days: 1), (timer) async {
-        await checkForTodayEvents();
-      });
-    });
-  }
+  //   Future.delayed(Duration(minutes: initialDelay), () async {
+  //     await checkForTodayEvents();
+  //     // Repeat daily
+  //     Timer.periodic(Duration(days: 1), (timer) async {
+  //       await checkForTodayEvents();
+  //     });
+  //   });
+  // }
 
-  Future<void> checkForTodayEvents() async {
-    // Get the current user ID
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final String currentUserId = firebaseAuth.currentUser!.uid;
+  // Future<void> checkForTodayEvents() async {
+  //   // Get the current user ID
+  //   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  //   final String currentUserId = firebaseAuth.currentUser!.uid;
 
-    // Get today's date
-    final today = DateTime.now();
-    final formattedDate = DateFormat('yyyy-MM-dd').format(today);
+  //   // Get today's date
+  //   final today = DateTime.now();
+  //   final formattedDate = DateFormat('yyyy-MM-dd').format(today);
 
-    // Query Firestore for today's events for the current user
-    final eventsQuery = FirebaseFirestore.instance
-        .collection('Events')
-        .where('ID', isEqualTo: currentUserId)
-        .where('Date', isEqualTo: formattedDate);
+  //   // Query Firestore for today's events for the current user
+  //   final eventsQuery = FirebaseFirestore.instance
+  //       .collection('Events')
+  //       .where('ID', isEqualTo: currentUserId)
+  //       .where('Date', isEqualTo: formattedDate);
 
-    final querySnapshot = await eventsQuery.get();
+  //   final querySnapshot = await eventsQuery.get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      // Show notification if there are events for today
-      NotificationService().showNotification(
-        'Today\'s Events',
-        'You have events scheduled for today!',
-      );
-    }
-  }
+  //   if (querySnapshot.docs.isNotEmpty) {
+  //     // Show notification if there are events for today
+  //     NotificationService().showNotification(
+  //       'Today\'s Events',
+  //       'You have events scheduled for today!',
+  //     );
+  //   }
+  // }
 
   void checkUnreadMessages() async {
     bool unreadMessages = await hasUnreadMessages();
@@ -382,21 +382,20 @@ class _HomePageState extends State<HomePage> {
                                 MediaQuery.of(context).size.width * 0.2, 0),
                             child: Image.asset(
                               "images/white.png",
-                              width: 170,
+                              width: 150,
                               height: 100,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery.of(context).size.width * 0.1, 0, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (currentUserEmail == "iamadmin@gmail.com")
-                            IconButton(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (currentUserEmail == "iamadmin@gmail.com")
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.1,0),
+                            child: IconButton(
                                 onPressed: () {
                                   Navigator.push(
                                       context,
@@ -408,38 +407,38 @@ class _HomePageState extends State<HomePage> {
                                   Icons.swap_horiz,
                                   color: Colors.black,
                                   size: 30,
-                                ))
-                          else
-                            Text("            "),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isEthiopian = !isEthiopian;
-                                });
-                              },
-                              child: isEthiopian
-                                  ? Text(
-                                      "G.C",
-                                      style: GoogleFonts.acme(
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : Text(
-                                      "ዓ.ም",
-                                      style: GoogleFonts.acme(
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                )),
+                          )
+                        else
+                          Text(""),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isEthiopian = !isEthiopian;
+                              });
+                            },
+                            child: isEthiopian
+                                ? Text(
+                                    "G.C",
+                                    style: GoogleFonts.acme(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                            ),
+                                  )
+                                : Text(
+                                    "ዓ.ም",
+                                    style: GoogleFonts.acme(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -781,16 +780,16 @@ class _HomePageState extends State<HomePage> {
                         //   NotificationService()
                         //       .checkAndScheduleNotifications(currentUserID);
                         // });
-                        NotificationServiceAndroid().showNotification(
-                            id: 0,
-                            title: "BOA",
-                            body: "Check Todays Event",
-                            payLoad: "");
-                        NotificationServiceAndroid().scheduleNotification(
-                            id: 1,
-                            title: "BOA Calendar",
-                            body: "You have Events to Check",
-                            scheduledDate: DateTime(10, 59, 0));
+                        // NotificationServiceAndroid().showNotification(
+                        //     id: 0,
+                        //     title: "BOA",
+                        //     body: "Check Todays Event",
+                        //     payLoad: "");
+                      //   NotificationServiceAndroid().scheduleNotification(
+                      //       id: 1,
+                      //       title: "BOA Calendar",
+                      //       body: "You have Events to Check",
+                      //       scheduledDate: DateTime(10, 59, 0));
                       }
                       return Padding(
                         padding: const EdgeInsets.only(

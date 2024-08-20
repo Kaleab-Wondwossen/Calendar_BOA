@@ -8,8 +8,8 @@ import '../components/my_text_field.dart';
 import 'home_page_user.dart';
 
 const List<String> list = <String>[
-  'E N D - OF - P E R I O D',
-  'S T A R T - OF - P E R I O D'
+  'END - OF - PERIOD',
+  'START - OF - PERIOD'
 ];
 
 class LoanCalculator extends StatefulWidget {
@@ -192,7 +192,7 @@ class _LoanCalculatorState extends State<LoanCalculator> {
                   ),),
                   const SizedBox(width: 3.5),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.000000001,0),
+                    padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.00000001,0),
                     child: DropdownButton(
                       value: dropdownValue,
                       icon: const Icon(Icons.arrow_downward),
@@ -294,7 +294,7 @@ class _LoanCalculatorState extends State<LoanCalculator> {
                     _calculateLoan();
                     //_showDialog(context);
                   },
-                  child: const MyButton(text: "C A L C U L A T E")),
+                  child: const MyButton(text: "CALCULATE")),
             ),
           ],
         ),

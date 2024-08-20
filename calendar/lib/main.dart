@@ -44,8 +44,8 @@ Map timezoneNames = {
   43200000: 'Pacific/Auckland',
 };
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +54,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Initialize Timezone Data
-  tz.initializeTimeZones();
+  //tz.initializeTimeZones();
 
   //init hive
   await Hive.initFlutter();
@@ -62,23 +62,23 @@ void main() async {
   var box = await Hive.openBox('Events');
 
   // Get the local timezone
-  final String currentTimeZones = await FlutterTimezone.getLocalTimezone();
-  final String currentTimeZone =
-      timezoneNames[DateTime.now().timeZoneOffset.inMilliseconds] ?? 'UTC';
-  print('$currentTimeZone ${DateTime.now().timeZoneOffset}');
+  // final String currentTimeZones = await FlutterTimezone.getLocalTimezone();
+  // final String currentTimeZone =
+  //     timezoneNames[DateTime.now().timeZoneOffset.inMilliseconds] ?? 'UTC';
+  // print('$currentTimeZone ${DateTime.now().timeZoneOffset}');
 
   // Set the local timezone for tz
-  tz.setLocalLocation(tz.getLocation(currentTimeZones));
-  print(currentTimeZones);
+  // tz.setLocalLocation(tz.getLocation(currentTimeZones));
+  // print(currentTimeZones);
 
   // Initialize Notifications
-  await NotificationService().initNotification();
+  //await NotificationService().initNotification();
   //await NotificationServiceIOS.initNotification();
   await FireStoreServices().initNotification();
 
   // Event Notifier
-  final EventNotifier eventNotifier = EventNotifier();
-  eventNotifier.checkEventsForToday();
+  // final EventNotifier eventNotifier = EventNotifier();
+  // eventNotifier.checkEventsForToday();
 
   runApp(ChangeNotifierProvider(
     create: (context) => AuthServices(),
