@@ -1,3 +1,4 @@
+import 'package:calendar/components/new_table_calendar.dart';
 import 'package:calendar/pages/ai_page.dart';
 import 'package:calendar/pages/inbox_page.dart';
 import 'package:calendar/pages/profile_page.dart';
@@ -109,6 +110,8 @@ class _MyNavBarState extends State<MyNavBar> {
             case 3:
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+              // Navigator.push(
+              //     context, MaterialPageRoute(builder: (context) => const NewTableCalendar()));
               break;
             case 4:
               Navigator.push(
