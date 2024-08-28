@@ -1,9 +1,9 @@
 import 'package:calendar/pages/add_event_page.dart';
 import 'package:calendar/pages/delete_ads_page.dart';
 import 'package:calendar/pages/image_adder_page.dart';
+import 'package:calendar/pages/search_users.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../pages/search_page.dart';
 import '../pages/home_page.dart'; // Import the HomePage
 import '../pages/admin_home_page.dart'; // Import the AdminHomePage
 
@@ -115,7 +115,7 @@ class _DashboardTabState extends State<DashboardTab> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SearchPage(),
+                                builder: (context) => const SearchUsersPage(),
                               ),
                             );
                           },

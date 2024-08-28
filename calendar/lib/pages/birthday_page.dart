@@ -25,7 +25,7 @@ class _BirthdayPageState extends State<BirthdayPage> {
             },
             icon: const Icon(Icons.arrow_back_ios)),
             title:  const Text(
-                "B I R T H D A Y S",
+                "C E L E B R A T I O N S",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

@@ -25,7 +25,7 @@ class _MatchPageState extends State<MatchPage> {
             },
             icon: const Icon(Icons.arrow_back_ios)),
             title:  const Text(
-                "M A T C H E S",
+                "A C T I V I T I E S",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

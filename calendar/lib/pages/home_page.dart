@@ -494,7 +494,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(
-                    width: 100,
+                    width: 50,
                   ),
                   Column(
                     children: [
@@ -514,7 +514,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0,15, 0),
                     child: IconButton(
                       onPressed: () {},
                       icon: const Icon(
