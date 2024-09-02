@@ -1,4 +1,3 @@
-import 'package:calendar/components/new_table_calendar.dart';
 import 'package:calendar/pages/ai_page.dart';
 import 'package:calendar/pages/inbox_page.dart';
 import 'package:calendar/pages/profile_page.dart';

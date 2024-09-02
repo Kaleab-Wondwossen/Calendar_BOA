@@ -2,7 +2,6 @@ import 'package:calendar/components/my_admin_events.dart';
 import 'package:calendar/pages/foriegn_exchange.dart';
 import 'package:calendar/pages/home_page.dart';
 import 'package:calendar/pages/loan_calculator.dart';
-import 'package:calendar/services/hive/hive_crud.dart';
 import 'package:calendar/services/toggle/to_eth_or_gregorian.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -140,112 +139,112 @@ class _HomePageUserState extends State<HomePageUser> {
               ],
             ),
           ),
-          floatingActionButton: Stack(
-            children: [
-              // Your other widgets go here
-              Positioned(
-                left: offset.dx,
-                top: offset.dy,
-                child: Draggable(
-                  feedback: FloatingActionButton(
-                    backgroundColor: const Color.fromARGB(255, 233, 176, 64),
-                    onPressed: () {},
-                    child: const Icon(
-                      Icons.add_rounded,
-                      color: Colors.black,
-                    ),
-                  ),
-                  childWhenDragging: Container(),
-                  onDragEnd: (details) {
-                    setState(() {
-                      offset = details.offset;
-                    });
-                  },
-                  child: FloatingActionButton(
-                    backgroundColor: const Color.fromARGB(255, 233, 176, 64),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            scrollable: true,
-                            title: Text(
-                              'Add Event',
-                              style: GoogleFonts.acme(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            content: Container(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextField(
-                                    controller: eventTitleController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Event Title',
-                                      fillColor: Colors.black,
-                                      focusColor: Colors.black,
-                                    ),
-                                  ),
-                                  TextField(
-                                    controller: eventDescriptionController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Event Description',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  'Cancel',
-                                  style: GoogleFonts.acme(
-                                      color: Colors.black, fontSize: 15),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  print(eventDescriptionController.text);
-                                  print(eventTitleController.text);
-                                  DateTime today = DateTime.now();
-                                  HiveCRUD hiveCRUD = HiveCRUD();
-                                  hiveCRUD.writeData([
-                                    eventTitleController.text,
-                                    eventDescriptionController.text,
-                                    today.toString()
-                                  ]);
-                                  //hiveCRUD.readData(2);
-                                  eventDescriptionController.clear();
-                                  eventTitleController.clear();
-                                },
-                                child: Text(
-                                  'Add',
-                                  style: GoogleFonts.acme(
-                                      color: Colors.black, fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: const Icon(
-                      Icons.add_rounded,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // floatingActionButton: Stack(
+          //   children: [
+          //     // Your other widgets go here
+          //     Positioned(
+          //       left: offset.dx,
+          //       top: offset.dy,
+          //       child: Draggable(
+          //         feedback: FloatingActionButton(
+          //           backgroundColor: const Color.fromARGB(255, 233, 176, 64),
+          //           onPressed: () {},
+          //           child: const Icon(
+          //             Icons.add_rounded,
+          //             color: Colors.black,
+          //           ),
+          //         ),
+          //         childWhenDragging: Container(),
+          //         onDragEnd: (details) {
+          //           setState(() {
+          //             offset = details.offset;
+          //           });
+          //         },
+          //         child: FloatingActionButton(
+          //           backgroundColor: const Color.fromARGB(255, 233, 176, 64),
+          //           onPressed: () {
+          //             showDialog(
+          //               context: context,
+          //               builder: (context) {
+          //                 return AlertDialog(
+          //                   scrollable: true,
+          //                   title: Text(
+          //                     'Add Event',
+          //                     style: GoogleFonts.acme(
+          //                       color: Colors.black,
+          //                       fontSize: 20,
+          //                       fontWeight: FontWeight.bold,
+          //                     ),
+          //                   ),
+          //                   content: Container(
+          //                     padding: const EdgeInsets.all(16.0),
+          //                     child: Column(
+          //                       mainAxisSize: MainAxisSize.min,
+          //                       children: [
+          //                         TextField(
+          //                           controller: eventTitleController,
+          //                           decoration: const InputDecoration(
+          //                             labelText: 'Event Title',
+          //                             fillColor: Colors.black,
+          //                             focusColor: Colors.black,
+          //                           ),
+          //                         ),
+          //                         TextField(
+          //                           controller: eventDescriptionController,
+          //                           decoration: const InputDecoration(
+          //                             labelText: 'Event Description',
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                   actions: [
+          //                     TextButton(
+          //                       onPressed: () {
+          //                         Navigator.pop(context);
+          //                       },
+          //                       child: Text(
+          //                         'Cancel',
+          //                         style: GoogleFonts.acme(
+          //                             color: Colors.black, fontSize: 15),
+          //                       ),
+          //                     ),
+          //                     TextButton(
+          //                       onPressed: () {
+          //                         Navigator.pop(context);
+          //                         print(eventDescriptionController.text);
+          //                         print(eventTitleController.text);
+          //                         DateTime today = DateTime.now();
+          //                         HiveCRUD hiveCRUD = HiveCRUD();
+          //                         hiveCRUD.writeData([
+          //                           eventTitleController.text,
+          //                           eventDescriptionController.text,
+          //                           today.toString()
+          //                         ]);
+          //                         //hiveCRUD.readData(2);
+          //                         eventDescriptionController.clear();
+          //                         eventTitleController.clear();
+          //                       },
+          //                       child: Text(
+          //                         'Add',
+          //                         style: GoogleFonts.acme(
+          //                             color: Colors.black, fontSize: 15),
+          //                       ),
+          //                     ),
+          //                   ],
+          //                 );
+          //               },
+          //             );
+          //           },
+          //           child: const Icon(
+          //             Icons.add_rounded,
+          //             color: Colors.black,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
