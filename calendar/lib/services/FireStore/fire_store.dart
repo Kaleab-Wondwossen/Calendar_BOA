@@ -27,16 +27,31 @@ class FireStoreServices {
   final CollectionReference notes2 =
       FirebaseFirestore.instance.collection("users");
 
+
+  Future<String?> getNoteContent(String docId) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    try {
+      DocumentSnapshot docSnapshot =
+          await _firestore.collection('Events').doc(docId).get();
+      if (docSnapshot.exists) {
+        return docSnapshot.get('notes'); // Assuming 'notes' is the field name
+      }
+    } catch (e) {
+      print('Error fetching note: $e');
+    }
+  }
+
   //Create: add note to the fire store
   Future<void> add(
-      String title, String description, String date, String userId, String eventsCategory) {
+      String note_event,String title, String description, String date, String userId, String eventsCategory,) {
     return notes.add({
       'EventTitle': title,
       'EventDescription': description,
       'ID': userId,
       "Date": date,
       'timestamp': Timestamp.now(),
-      "eventsCategory": eventsCategory
+      "eventsCategory": eventsCategory,
+      "notes": note_event
     });
   }
 

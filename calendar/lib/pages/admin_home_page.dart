@@ -93,7 +93,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       "Welcome to your calendar",
                       style: GoogleFonts.acme(
                         color: Colors.black,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
                   ],

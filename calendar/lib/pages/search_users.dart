@@ -129,6 +129,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
                       date: result["uid"],
                       showDeleteIcon: false,
                       showEditIcon: false,
+                      notesExist: false,
                     ),
                   ),
                 );

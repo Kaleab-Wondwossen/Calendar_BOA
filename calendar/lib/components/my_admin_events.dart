@@ -65,6 +65,7 @@ class _AdminEventsState extends State<AdminEvents> {
                   date: date,
                   showDeleteIcon: false,
                   showEditIcon: false,
+                  notesExist: false,
                 );
               }).toList(),
             ),

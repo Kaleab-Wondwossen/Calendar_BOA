@@ -78,6 +78,8 @@ class _MyPassedEventsState extends State<MyPassedEvents> {
                         date: date,
                         showEditIcon: false,
                         docId: docID,
+                        notesExist: true,
+                        docuId: document.id,
                       );
                     }).toList(),
                   ),

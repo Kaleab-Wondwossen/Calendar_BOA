@@ -63,14 +63,14 @@ class _MeetingPageState extends State<MeetingPage> {
                       bool isFutureEvent = eventDate.isAfter(DateTime.now());
 
                       // Check if title contains "birthday" case-insensitively
-                      bool isBirthdayEvent = document['EventTitle']
+                      bool isMeetingEvent = document['EventTitle']
                           .toString()
                           .toLowerCase()
                           .contains('meetings');
 
                       return isCurrentUserEvent &&
                           isFutureEvent &&
-                          isBirthdayEvent;
+                          isMeetingEvent;
                     }).toList();
 
                     // Sort documents by eventDate in ascending order
@@ -120,6 +120,7 @@ class _MeetingPageState extends State<MeetingPage> {
                             color: color,
                             docId: docID,
                             date: date,
+                            notesExist: false,
                           );
                         }).toList(),
                       ),

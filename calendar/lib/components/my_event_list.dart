@@ -66,6 +66,18 @@ class _EventListState extends State<EventList> {
                 String docID = document.id;
                 String date = document['Date'];
 
+                 String eventNotes = document['notes'];
+                                  bool notesExist = eventNotes != null &&
+                                      eventNotes.isNotEmpty;
+
+                                  if (notesExist) {
+                                    print(
+                                        'Notes field has content: $eventNotes');
+                                  } else {
+                                    print(
+                                        'Notes field is empty or not available.');
+                                  }
+
                 // Parse event date
                 DateTime eventDate = DateTime.parse(document['Date']);
 
@@ -89,6 +101,8 @@ class _EventListState extends State<EventList> {
                   color: color,
                   docId: docID,
                   date: date,
+                  docuId: document.id,
+                  notesExist: notesExist,
                 );
               }).toList(),
             ),

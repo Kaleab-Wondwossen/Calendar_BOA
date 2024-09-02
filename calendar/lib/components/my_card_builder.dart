@@ -3,17 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 import '../services/FireStore/fire_store.dart';
 
 class CardBuilder extends StatelessWidget {
-  const CardBuilder({
-    super.key,
-    required this.title,
-    required this.description,
-    this.color,
-    this.docId,
-    this.date,
-    this.showEditIcon = true,
-    this.showDeleteIcon = true,
-    this.category,
-  });
+  const CardBuilder(
+      {super.key,
+      required this.title,
+      required this.description,
+      this.color,
+      this.docId,
+      this.date,
+      this.showEditIcon = true,
+      this.showDeleteIcon = true,
+      this.category,
+      this.notesExist = true,
+      this.docuId});
 
   final String title;
   final String description;
@@ -23,6 +24,8 @@ class CardBuilder extends StatelessWidget {
   final bool showEditIcon;
   final bool showDeleteIcon;
   final String? category;
+  final bool notesExist;
+  final String? docuId;
 
   @override
   Widget build(BuildContext context) {
@@ -36,38 +39,34 @@ class CardBuilder extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
+              Container(
+                height: 40,
+                width: 5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromARGB(255, 248, 248, 248),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 40,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 248, 248, 248),
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Text(
+                      description,
+                      style: GoogleFonts.inter(),
+                      softWrap: true,
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.inter(fontWeight: FontWeight.w800),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Text(
-                          description,
-                          style: GoogleFonts.inter(),
-                          softWrap: true,
-                        ),
-                      ),
-                      Text(date.toString()),
-                      //Text(category.toString())
-                    ],
-                  ),
+                  Text(date.toString()),
+                  // Text(category.toString())
                 ],
               ),
               if (showEditIcon)
@@ -156,6 +155,96 @@ class CardBuilder extends StatelessWidget {
                   icon: const Icon(
                     Icons.delete,
                     color: Color.fromARGB(255, 252, 17, 0),
+                  ),
+                ),
+                if (notesExist)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,0,0,0),
+                  child: IconButton(
+                    onPressed: () async {
+                      if (docuId == null) {
+                        // Handle null docId scenario
+                        print('Document ID is null. Cannot fetch note.');
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                'Error',
+                                style: GoogleFonts.acme(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              content: Text(
+                                'Error fetching note: Document ID is null.',
+                                style: GoogleFonts.inter(),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Close',
+                                    style: GoogleFonts.acme(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        return; // Exit the function if docId is null
+                      }
+                  
+                      // Fetch note from Firestore
+                      FireStoreServices fireStoreServices = FireStoreServices();
+                      String? noteContent =
+                          await fireStoreServices.getNoteContent(docuId!);
+                  
+                      // Show dialog with note content
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Note',
+                              style: GoogleFonts.acme(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            content: Text(
+                              noteContent ?? 'No content available.',
+                              style: GoogleFonts.inter(),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'Close',
+                                  style: GoogleFonts.acme(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.note,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
             ],

@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../components/my_card_builder.dart';
 import '../model/events.dart';
@@ -62,6 +63,14 @@ class _HomePageState extends State<HomePage> {
     'ጳጉሜ',
   ];
 
+  List<DateTime> ethiopianHolidays = [
+    DateTime(2024, 1, 7), // Ethiopian Christmas
+    DateTime(2024, 1, 20), // Timkat (Epiphany)
+    DateTime(2024, 3, 2), // Adwa
+    DateTime(2024, 4, 10), // Eid-al Futur
+    DateTime(2024, 5, 1), // Labour day
+  ];
+
   Map<DateTime, List<Events>> evenets = {};
   TextEditingController eventDescriptionCOntroller = TextEditingController();
   TextEditingController eventTitleCOntroller = TextEditingController();
@@ -75,6 +84,7 @@ class _HomePageState extends State<HomePage> {
   late DateTime year;
   String selectedCategory = '';
   String dropdownValue = 'Celebration';
+  String notes = "";
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -105,6 +115,25 @@ class _HomePageState extends State<HomePage> {
     chatRoomId = ids.join("_");
     // NotificationService().initNotification();
     // scheduleDailyEventCheck();
+    _loadHolidays();
+  }
+
+  void _loadHolidays() async {
+    ethiopianHolidays = await loadHolidays();
+    setState(() {});
+  }
+
+  Future<void> saveHolidays(List<DateTime> holidays) async {
+    final prefs = await SharedPreferences.getInstance();
+    final holidayStrings =
+        holidays.map((holiday) => holiday.toIso8601String()).toList();
+    await prefs.setStringList('ethiopianHolidays', holidayStrings);
+  }
+
+  Future<List<DateTime>> loadHolidays() async {
+    final prefs = await SharedPreferences.getInstance();
+    final holidayStrings = prefs.getStringList('ethiopianHolidays') ?? [];
+    return holidayStrings.map((holiday) => DateTime.parse(holiday)).toList();
   }
 
   EtDatetime convertToEthiopianDate(DateTime date) {
@@ -160,6 +189,35 @@ class _HomePageState extends State<HomePage> {
   //     );
   //   }
   // }
+
+  void _showNotesDialog(ValueChanged<String> onNotesSaved) {
+    String notes = '';
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Add Notes'),
+        content: TextField(
+          decoration: const InputDecoration(labelText: 'Notes'),
+          onChanged: (value) {
+            notes = value;
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              onNotesSaved(notes);
+            },
+            child: const Text('Save Notes'),
+          ),
+        ],
+      ),
+    );
+  }
 
   void checkUnreadMessages() async {
     bool unreadMessages = await hasUnreadMessages();
@@ -282,6 +340,14 @@ class _HomePageState extends State<HomePage> {
                                 );
                               }).toList(),
                             ),
+                            TextButton(
+                              onPressed: () {
+                                _showNotesDialog((noteText) {
+                                  notes = noteText;
+                                });
+                              },
+                              child: const Text('Add Notes'),
+                            ),
                           ],
                         ),
                       ),
@@ -321,12 +387,13 @@ class _HomePageState extends State<HomePage> {
                             FireStoreServices _firestoreservices =
                                 FireStoreServices();
                             _firestoreservices.add(
-                                eventTitleCOntroller.text,
-                                eventDescriptionCOntroller.text,
-                                date,
-                                currentUserId,
-                                selectedCategory // Add the selected category
-                                );
+                              notes,
+                              eventTitleCOntroller.text,
+                              eventDescriptionCOntroller.text,
+                              date,
+                              currentUserId,
+                              selectedCategory, // Add the selected category
+                            );
                             eventDescriptionCOntroller.clear();
                             eventTitleCOntroller.clear();
                           },
@@ -394,7 +461,8 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         if (currentUserEmail == "iamadmin@gmail.com")
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0,0,MediaQuery.of(context).size.width * 0.1,0),
+                            padding: EdgeInsets.fromLTRB(0, 0,
+                                MediaQuery.of(context).size.width * 0.1, 0),
                             child: IconButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -514,7 +582,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0,15, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
                     child: IconButton(
                       onPressed: () {},
                       icon: const Icon(
@@ -580,6 +648,11 @@ class _HomePageState extends State<HomePage> {
                   setState(() {
                     _calendarFormat = format;
                   });
+                },
+                holidayPredicate: (day) {
+                  // Define the logic to check if a date is a holiday
+                  return ethiopianHolidays
+                      .any((holiday) => isSameDay(day, holiday));
                 },
                 calendarBuilders: CalendarBuilders(
                   headerTitleBuilder: (context, date) {
@@ -653,6 +726,49 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         displayDate,
                         style: GoogleFonts.acme(color: Colors.black),
+                      ),
+                    );
+                  },
+                  // Adding a custom builder for holidays
+                  holidayBuilder: (context, date, _) {
+                    String displayDate;
+                    if (isEthiopian) {
+                      final etDate =
+                          EthiopianDateConverter.convertToEthiopianDate(date);
+                      displayDate = '${etDate.day}';
+                    } else {
+                      displayDate = '${date.day}';
+                    }
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color:
+                              Colors.red, // Border color to indicate a holiday
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Center(
+                            child: Text(
+                              displayDate,
+                              style: GoogleFonts.acme(color: Colors.black),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 4, // Adjust position as needed
+                            child: Container(
+                              width: 5,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red, // Dot color for holidays
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -774,68 +890,80 @@ class _HomePageState extends State<HomePage> {
                             document['ID'] == currentUserId;
                         return isEventToday && isCurrentUserEvent;
                       }).toList();
-                      // ignore: unnecessary_null_comparison
-                      if (currentUserID != null) {
+
+                      if (currentUserId != null) {
                         // Timer.periodic(Duration(hours: 6), (timer) {
                         //   NotificationService()
-                        //       .checkAndScheduleNotifications(currentUserID);
+                        //       .checkAndScheduleNotifications(currentUserId);
                         // });
                         // NotificationServiceAndroid().showNotification(
                         //     id: 0,
                         //     title: "BOA",
                         //     body: "Check Todays Event",
                         //     payLoad: "");
-                      //   NotificationServiceAndroid().scheduleNotification(
-                      //       id: 1,
-                      //       title: "BOA Calendar",
-                      //       body: "You have Events to Check",
-                      //       scheduledDate: DateTime(10, 59, 0));
+                        //   NotificationServiceAndroid().scheduleNotification(
+                        //       id: 1,
+                        //       title: "BOA Calendar",
+                        //       body: "You have Events to Check",
+                        //       scheduledDate: DateTime(10, 59, 0));
                       }
+
                       return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 0), // Adjust the left padding as needed
+                        padding: const EdgeInsets.only(left: 0),
                         child: todaysDocuments.isEmpty
                             ? Center(
                                 child: Text(
                                   'OOPS!! No events found for today...',
                                   style: GoogleFonts.acme(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               )
                             : Wrap(
                                 spacing: 10,
                                 runSpacing: 10,
                                 children: todaysDocuments.map((document) {
-                                  String id = document['EventTitle'];
-                                  String message = document['EventDescription'];
+                                  String title = document['EventTitle'];
+                                  String description =
+                                      document['EventDescription'];
+                                  String eventNotes = document['notes'];
+                                  bool notesExist = eventNotes != null &&
+                                      eventNotes.isNotEmpty;
+
+                                  if (notesExist) {
+                                    print(
+                                        'Notes field has content: $eventNotes');
+                                  } else {
+                                    print(
+                                        'Notes field is empty or not available.');
+                                  }
 
                                   // Parse the date string to DateTime
                                   DateTime eventDate =
                                       DateTime.parse(document['Date']);
                                   String date = document['Date'];
+
                                   // Calculate days difference
                                   int daysDifference = eventDate
                                       .difference(DateTime.now())
                                       .inDays;
 
                                   // Determine color based on days difference
-                                  Color color;
-                                  if (daysDifference <= 15) {
-                                    color =
-                                        const Color.fromARGB(255, 233, 176, 64);
-                                  } else {
-                                    color =
-                                        const Color.fromARGB(255, 98, 201, 102);
-                                  }
+                                  Color color = daysDifference <= 15
+                                      ? const Color.fromARGB(255, 233, 176, 64)
+                                      : const Color.fromARGB(255, 98, 201, 102);
 
                                   return CardBuilder(
-                                    title: id,
-                                    description: message,
+                                    title: title,
+                                    description: description,
                                     color: color,
                                     date: date,
                                     showDeleteIcon: false,
                                     showEditIcon: false,
+                                    notesExist: notesExist,
+                                    docuId:
+                                        document.id, // This is the document ID
                                   );
                                 }).toList(),
                               ),
@@ -918,7 +1046,15 @@ class _HomePageState extends State<HomePage> {
 
                           // Parse event date
                           DateTime eventDate = DateTime.parse(document['Date']);
+                          String eventNotes = document['notes'];
+                          bool notesExist =
+                              eventNotes != null && eventNotes.isNotEmpty;
 
+                          if (notesExist) {
+                            print('Notes field has content: $eventNotes');
+                          } else {
+                            print('Notes field is empty or not available.');
+                          }
                           // Calculate days difference
                           int daysDifference =
                               eventDate.difference(DateTime.now()).inDays;
@@ -939,6 +1075,8 @@ class _HomePageState extends State<HomePage> {
                             color: color,
                             docId: docID,
                             date: date,
+                            notesExist: notesExist,
+                            docuId: document.id,
                           );
                         }).toList(),
                       ),

@@ -121,6 +121,7 @@ class _PeoplePageState extends State<PeoplePage> {
                             color: color,
                             docId: docID,
                             date: date,
+                            notesExist: false,
                           );
                         }).toList(),
                       ),

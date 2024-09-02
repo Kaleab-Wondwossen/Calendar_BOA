@@ -121,6 +121,7 @@ class _MatchPageState extends State<MatchPage> {
                             color: color,
                             docId: docID,
                             date: date,
+                            notesExist: false,
                           );
                         }).toList(),
                       ),

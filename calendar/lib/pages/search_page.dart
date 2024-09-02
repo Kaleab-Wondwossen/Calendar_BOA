@@ -124,6 +124,7 @@ class _SearchPageState extends State<SearchPage> {
                     date: result["Date"],
                     showDeleteIcon: false,
                     showEditIcon: false,
+                    notesExist: false,
                   ),
                 );
               },

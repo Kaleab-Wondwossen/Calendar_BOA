@@ -121,6 +121,7 @@ class _BirthdayPageState extends State<BirthdayPage> {
                             color: color,
                             docId: docID,
                             date: date,
+                            notesExist: false,
                           );
                         }).toList(),
                       ),
