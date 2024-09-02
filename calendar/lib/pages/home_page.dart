@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
   late DateTime today;
   late String username;
   late DateTime year;
-  String selectedCategory = '';
+  String selectedCategory = 'Celebration';
   String dropdownValue = 'Celebration';
   String notes = "";
 
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
   // }
 
   void _showNotesDialog(ValueChanged<String> onNotesSaved) {
-    String notes = '';
+    String? notes = '';
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -210,7 +210,8 @@ class _HomePageState extends State<HomePage> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              onNotesSaved(notes);
+              onNotesSaved(notes!);
+              notes = null;
             },
             child: const Text('Save Notes'),
           ),
@@ -344,6 +345,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 _showNotesDialog((noteText) {
                                   notes = noteText;
+                                  notes;
                                 });
                               },
                               child: const Text('Add Notes'),

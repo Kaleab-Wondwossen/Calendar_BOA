@@ -20,17 +20,17 @@ class _BirthdayPageState extends State<BirthdayPage> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Events()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Events()));
             },
             icon: const Icon(Icons.arrow_back_ios)),
-            title:  const Text(
-                "C E L E B R A T I O N S",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        title: const Text(
+          "C E L E B R A T I O N S",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -63,15 +63,16 @@ class _BirthdayPageState extends State<BirthdayPage> {
                       // Include events that have eventDate after today
                       bool isFutureEvent = eventDate.isAfter(DateTime.now());
 
-                      // Check if title contains "birthday" case-insensitively
-                      bool isBirthdayEvent = document['EventTitle']
+                      // Check if title contains "celebration" case-insensitively
+                      bool isCelebrationEvent = document['eventsCategory']
                           .toString()
                           .toLowerCase()
-                          .contains('birthday');
+                          .contains(
+                              'celebration'); // Change 'Celebration' to 'celebration'
 
                       return isCurrentUserEvent &&
                           isFutureEvent &&
-                          isBirthdayEvent;
+                          isCelebrationEvent;
                     }).toList();
 
                     // Sort documents by eventDate in ascending order
@@ -81,10 +82,10 @@ class _BirthdayPageState extends State<BirthdayPage> {
                       return eventDateA.compareTo(eventDateB);
                     });
 
-                    // Print titles of birthday events
+                    // Print titles of celebration events
                     userDocuments.forEach((document) {
-                      String id = document['EventTitle'];
-                      print('Birthday Event Title: $id');
+                      String id = document['eventsCategory'];
+                      print('Celebration Event Title: $id'); // Debugging log
                     });
 
                     return Padding(

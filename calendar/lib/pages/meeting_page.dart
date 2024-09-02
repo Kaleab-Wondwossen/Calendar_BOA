@@ -19,17 +19,17 @@ class _MeetingPageState extends State<MeetingPage> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Events()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Events()));
             },
             icon: const Icon(Icons.arrow_back_ios)),
-            title:  const Text(
-                "M E E T I N G S",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        title: const Text(
+          "M E E T I N G S",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -62,11 +62,11 @@ class _MeetingPageState extends State<MeetingPage> {
                       // Include events that have eventDate after today
                       bool isFutureEvent = eventDate.isAfter(DateTime.now());
 
-                      // Check if title contains "birthday" case-insensitively
-                      bool isMeetingEvent = document['EventTitle']
+                      // Check if title contains "meeting" case-insensitively
+                      bool isMeetingEvent = document['eventsCategory']
                           .toString()
                           .toLowerCase()
-                          .contains('meetings');
+                          .contains('meeting'); // Change 'Meeting' to 'meeting'
 
                       return isCurrentUserEvent &&
                           isFutureEvent &&
@@ -80,10 +80,10 @@ class _MeetingPageState extends State<MeetingPage> {
                       return eventDateA.compareTo(eventDateB);
                     });
 
-                    // Print titles of birthday events
+                    // Print titles of meeting events
                     userDocuments.forEach((document) {
-                      String id = document['EventTitle'];
-                      print('Meeting Event Title: $id');
+                      String id = document['eventsCategory'];
+                      print('Meeting Event Title: $id'); // Debugging log
                     });
 
                     return Padding(

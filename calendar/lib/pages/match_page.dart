@@ -20,17 +20,17 @@ class _MatchPageState extends State<MatchPage> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Events()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Events()));
             },
             icon: const Icon(Icons.arrow_back_ios)),
-            title:  const Text(
-                "A C T I V I T I E S",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        title: const Text(
+          "A C T I V I T I E S",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -63,15 +63,15 @@ class _MatchPageState extends State<MatchPage> {
                       // Include events that have eventDate after today
                       bool isFutureEvent = eventDate.isAfter(DateTime.now());
 
-                      // Check if title contains "birthday" case-insensitively
-                      bool isBirthdayEvent = document['EventTitle']
+                      // Check if category contains "outdoor activities" case-insensitively
+                      bool isOutdoorActivitiesEvent = document['eventsCategory']
                           .toString()
                           .toLowerCase()
-                          .contains('match');
+                          .contains('out door activities');
 
                       return isCurrentUserEvent &&
                           isFutureEvent &&
-                          isBirthdayEvent;
+                          isOutdoorActivitiesEvent;
                     }).toList();
 
                     // Sort documents by eventDate in ascending order
@@ -81,10 +81,11 @@ class _MatchPageState extends State<MatchPage> {
                       return eventDateA.compareTo(eventDateB);
                     });
 
-                    // Print titles of birthday events
+                    // Print titles of outdoor activities events
                     userDocuments.forEach((document) {
-                      String id = document['EventTitle'];
-                      print('Match Event Title: $id');
+                      String id = document['eventsCategory'];
+                      print(
+                          'Outdoor Activities Event Title: $id'); // Debugging log
                     });
 
                     return Padding(
