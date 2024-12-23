@@ -56,9 +56,17 @@ class _EventsState extends State<Events> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BirthdayPage()));
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const BirthdayPage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
                       },
                       child: const CategoriesCard(
                         icon: Icons.cake,
@@ -72,9 +80,17 @@ class _EventsState extends State<Events> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MeetingPage()));
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const MeetingPage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
                       },
                       child: const CategoriesCard(
                         icon: Icons.meeting_room,
@@ -89,10 +105,18 @@ class _EventsState extends State<Events> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MatchPage()));
+                         Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const MatchPage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
                       },
                       child: const CategoriesCard(
                         icon: Icons.sports_soccer,
@@ -108,9 +132,17 @@ class _EventsState extends State<Events> {
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PeoplePage()));
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const PeoplePage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
                       },
                       child: const CategoriesCard(
                         icon: Icons.person,

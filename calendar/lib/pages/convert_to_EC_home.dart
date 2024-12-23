@@ -87,7 +87,7 @@ class _ConverterPageToEthState extends State<ConverterPageToEth> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: MyTextField(
-                    hintText: "26",
+                    hintText: "DD",
                     controllers: dateController,
                     obscureText: false),
               ),
@@ -106,7 +106,7 @@ class _ConverterPageToEthState extends State<ConverterPageToEth> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: MyTextField(
-                    hintText: "12",
+                    hintText: "MM",
                     controllers: monthController,
                     obscureText: false),
               ),
@@ -125,7 +125,7 @@ class _ConverterPageToEthState extends State<ConverterPageToEth> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: MyTextField(
-                    hintText: "1900",
+                    hintText: "YYYY",
                     controllers: yearController,
                     obscureText: false),
               ),

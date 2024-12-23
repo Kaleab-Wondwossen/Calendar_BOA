@@ -87,8 +87,14 @@ class _DashboardTabState extends State<DashboardTab> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const AdminAddEvent(),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const AdminAddEvent(),
+                                transitionDuration:
+                                    Duration.zero, // No transition duration
+                                reverseTransitionDuration: Duration
+                                    .zero, // No reverse transition duration
                               ),
                             );
                           },
@@ -114,8 +120,14 @@ class _DashboardTabState extends State<DashboardTab> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const SearchUsersPage(),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const SearchUsersPage(),
+                                transitionDuration:
+                                    Duration.zero, // No transition duration
+                                reverseTransitionDuration: Duration
+                                    .zero, // No reverse transition duration
                               ),
                             );
                           },
@@ -138,7 +150,8 @@ class _DashboardTabState extends State<DashboardTab> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: toggleSwitch, // Call the toggleSwitch method
+                          onPressed:
+                              toggleSwitch, // Call the toggleSwitch method
                           icon: const Icon(
                             Icons.swap_horizontal_circle,
                             size: 30,
@@ -158,11 +171,17 @@ class _DashboardTabState extends State<DashboardTab> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const AddImage(),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const AddImage(),
+                                transitionDuration:
+                                    Duration.zero, // No transition duration
+                                reverseTransitionDuration: Duration
+                                    .zero, // No reverse transition duration
                               ),
                             );
                           },
@@ -185,11 +204,17 @@ class _DashboardTabState extends State<DashboardTab> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => DeleteAds(),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        DeleteAds(),
+                                transitionDuration:
+                                    Duration.zero, // No transition duration
+                                reverseTransitionDuration: Duration
+                                    .zero, // No reverse transition duration
                               ),
                             );
                           },

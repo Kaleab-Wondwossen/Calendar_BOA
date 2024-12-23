@@ -92,12 +92,18 @@ class _ProfileState extends State<Profile> {
                   // Profile
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Profilescreen(),
-                        ),
-                      );
+                      Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const Profilescreen(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -120,12 +126,18 @@ class _ProfileState extends State<Profile> {
                   // Setting
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SettingScreen(),
-                        ),
-                      );
+                       Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const SettingScreen(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
                     },
                     child: Container(
                       decoration: BoxDecoration(
