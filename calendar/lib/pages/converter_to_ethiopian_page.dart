@@ -186,17 +186,29 @@ class _ConverterPageToEthState extends State<ConverterPageToEth> {
           switch (index) {
             case 0:
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HomePageUser()));
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const HomePageUser(),
+                  transitionDuration: Duration.zero, // No transition duration
+                  reverseTransitionDuration:
+                      Duration.zero, // No reverse transition duration
+                ),
+              );
 
               break;
             case 1:
               if (index != 1) {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ConverterPageToEth()));
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        const ConverterPageToEth(),
+                    transitionDuration: Duration.zero, // No transition duration
+                    reverseTransitionDuration:
+                        Duration.zero, // No reverse transition duration
+                  ),
+                );
               }
 
               break;
