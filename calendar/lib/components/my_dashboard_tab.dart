@@ -214,7 +214,7 @@ class _DashboardTabState extends State<DashboardTab> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Current Page: ${isHomePage ? "Home" : "Admin"}',
+                'Current Page: ${isHomePage ? "Home" : "Agent"}',
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,

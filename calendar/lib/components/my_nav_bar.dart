@@ -95,26 +95,76 @@ class _MyNavBarState extends State<MyNavBar> {
           }
           switch (index) {
             case 0:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const HomePage()));
+               Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const HomePage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
               break;
             case 1:
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Events()));
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const Events(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
               break;
             case 2:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const ChatPage()));
+               Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const ChatPage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
               break;
             case 3:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+               Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const ChatScreen(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
               // Navigator.push(
               //     context, MaterialPageRoute(builder: (context) => const NewTableCalendar()));
               break;
             case 4:
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Profile()));
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const Profile(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
               break;
           }
         }

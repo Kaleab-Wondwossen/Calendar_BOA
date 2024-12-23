@@ -7,7 +7,6 @@ import 'package:calendar/components/my_nav_bar.dart';
 import 'package:calendar/pages/admin_home_page.dart';
 import 'package:calendar/pages/home_page_user.dart';
 import 'package:calendar/pages/inbox_page.dart';
-import 'package:calendar/pages/local_notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ethiopian_calendar/ethiopian_date_converter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +19,6 @@ import 'package:table_calendar/table_calendar.dart';
 import '../components/my_card_builder.dart';
 import '../model/events.dart';
 import '../services/FireStore/fire_store.dart';
-import 'flutter_local_notifications.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -435,7 +433,7 @@ class _HomePageState extends State<HomePage> {
                       child: Builder(
                           builder: (context) => IconButton(
                               onPressed: () {
-                                Scaffold.of(context).openDrawer();
+                                Scaffold.of(context);
                               },
                               icon: Icon(
                                 Icons.menu,

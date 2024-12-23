@@ -4,13 +4,11 @@ import 'package:calendar/components/my_category_card.dart';
 import 'package:calendar/components/my_nav_bar.dart';
 import 'package:calendar/components/my_passed_events.dart';
 import 'package:calendar/components/my_table_calendar.dart';
-import 'package:calendar/pages/add_event_page.dart';
 import 'package:calendar/pages/birthday_page.dart';
 import 'package:calendar/pages/match_page.dart';
 import 'package:calendar/pages/meeting_page.dart';
 import 'package:calendar/pages/people_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
