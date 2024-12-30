@@ -57,16 +57,34 @@ class _ConverterPageHomeState extends State<ConverterPageHome> {
         backgroundColor: const Color.fromARGB(255, 247, 247, 247),
         leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
+             Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const HomePage(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              );
             icon: Icon(Icons.arrow_back_ios)),
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ConverterPageToEth()));
-            },
+              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const ConverterPageToEth(),
+                                  transitionDuration:
+                                      Duration.zero, // No transition duration
+                                  reverseTransitionDuration: Duration
+                                      .zero, // No reverse transition duration
+                                ),
+                              ); 
             child: const Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
               child: Icon(
